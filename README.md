@@ -203,29 +203,12 @@
                             `;
                         })
                         .catch((error) => {
-                            console.error("Firebase Error: ", error);
+                            // Menangkap pesan error Firebase dan menampilkannya langsung di layar untuk debugging
+                            document.getElementById('statusContent').innerHTML = `
+                                <i class="fa-solid fa-circle-xmark" style="color: #f43f5e;"></i>
+                                <span style="margin-left: 10px; color: #f43f5e;">Firebase Error: ${error.message}</span>
+                            `;
                         });
                     },
                     (error) => {
-                        let msg = "Koneksi Terputus. Gagal memvalidasi modem perangkat.";
-                        if (error.code === error.PERMISSION_DENIED) {
-                            msg = "Eror: Perangkat menolak otentikasi GPS (Akses Ditolak).";
-                        }
-                        document.getElementById('statusContent').innerHTML = `
-                            <i class="fa-solid fa-circle-xmark" style="color: #f43f5e;"></i>
-                            <span style="margin-left: 10px; color: #f43f5e;">${msg}</span>
-                        `;
-                    },
-                    {
-                        enableHighAccuracy: true, // Memaksa hardware HP memakai sensor GPS kasta tertinggi agar akurat
-                        timeout: 10000,
-                        maximumAge: 0
-                    }
-                );
-            } else {
-                alert("Browser tidak mendukung sistem enkripsi lokasi.");
-            }
-        }
-    </script>
-</body>
-</html>
+                        let msg
